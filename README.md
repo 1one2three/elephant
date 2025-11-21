@@ -1,6 +1,16 @@
-# 🐘 Elephant
+<div align="center">
+  <img src="logo.png" alt="Elephant Logo" width="400"/>
 
-**Never forget your citations.** A command-line tool to track, analyze, and boost your scientific citations across multiple platforms.
+  # 🐘 Elephant
+
+  **Never forget your citations.**
+
+  A command-line tool to track, analyze, and boost your scientific citations across multiple platforms.
+
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+
+</div>
 
 ## Features
 
@@ -56,3 +66,19 @@ elephant track --doi "10.1234/example"
 - `track` - Track specific papers
 - `export` - Export data to CSV/JSON
 - `alert` - Set up citation alerts
+
+## Why Elephant? 🐘
+
+Elephants are famous for their incredible memory - they never forget. Just like an elephant, this tool remembers and tracks all your citations, publications, and metrics across multiple platforms, so you never miss an opportunity to boost your research impact.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Acknowledgments
+
+Built with ❤️ for researchers who want to maximize their academic impact.
