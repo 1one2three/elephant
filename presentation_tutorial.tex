@@ -1,0 +1,1124 @@
+\documentclass{beamer}
+\usetheme{Warsaw}
+\usecolortheme{seahorse}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{fontawesome5}
+\usepackage{xcolor}
+
+% Colors
+\definecolor{terminalblack}{RGB}{0,0,0}
+\definecolor{terminalgreen}{RGB}{0,200,0}
+\definecolor{codegreen}{RGB}{0,128,0}
+\definecolor{codepurple}{RGB}{128,0,128}
+\definecolor{backcolour}{RGB}{245,245,245}
+
+% Code style for terminal
+\lstdefinestyle{terminal}{
+    backgroundcolor=\color{terminalblack},
+    basicstyle=\ttfamily\small\color{terminalgreen},
+    breaklines=true,
+    frame=single,
+    xleftmargin=0pt,
+    framexleftmargin=0pt
+}
+
+% Code style for Python
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray}
+}
+
+\title[Elephant Tutorial]{🐘 Elephant}
+\subtitle{Complete Guide to Citation Tracking and Boosting}
+\author{Malak Alnemari}
+\institute{
+    \texttt{github.com/alnemari-m/elephant} \\
+    \texttt{mohammedalnemari@gmail.com}
+}
+\date{\today}
+
+\begin{document}
+
+% Title Slide
+\begin{frame}
+\titlepage
+\begin{center}
+    \large{\textbf{Never Forget Your Citations}} \\
+    \vspace{0.3cm}
+    \normalsize{A Complete Tutorial and User Guide}
+\end{center}
+\end{frame}
+
+% What We'll Cover
+\begin{frame}{What You'll Learn Today}
+\begin{block}{By the end of this tutorial, you will be able to:}
+\begin{enumerate}
+    \item Install and set up Elephant on your system
+    \item Connect your academic profiles (ORCID, arXiv, etc.)
+    \item Fetch and track your citations automatically
+    \item Understand your citation metrics and trends
+    \item Get personalized recommendations to boost your impact
+    \item Export and analyze your citation data
+\end{enumerate}
+\end{block}
+
+\vspace{0.3cm}
+
+\begin{alertblock}{Prerequisites}
+\begin{itemize}
+    \item Basic command-line knowledge
+    \item Python 3.8+ installed
+    \item At least one academic profile (ORCID recommended)
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\section{Part 1: Understanding the Problem}
+
+\begin{frame}{Why Do We Need Citation Tracking?}
+\begin{columns}
+\column{0.5\textwidth}
+\textbf{Your Research Journey}
+\begin{enumerate}
+    \item Publish paper
+    \item Wait for citations
+    \item Check Google Scholar
+    \item Check ORCID
+    \item Check arXiv
+    \item Manually count citations
+    \item Update spreadsheet
+    \item Repeat monthly...
+\end{enumerate}
+
+\column{0.5\textwidth}
+\begin{alertblock}{Problems}
+\begin{itemize}
+    \item Time-consuming
+    \item Error-prone
+    \item No historical data
+    \item No insights
+    \item No actionable advice
+\end{itemize}
+\end{alertblock}
+
+\vspace{0.3cm}
+
+\begin{exampleblock}{Solution}
+Automate everything with Elephant!
+\end{exampleblock}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Real-World Scenario}
+\begin{block}{Meet Dr. Sarah}
+\begin{itemize}
+    \item Published 15 papers over 3 years
+    \item Citations scattered across platforms
+    \item Spends 2-3 hours/month tracking manually
+    \item Doesn't know which papers need promotion
+    \item Missing citation opportunities
+\end{itemize}
+\end{block}
+
+\pause
+
+\begin{exampleblock}{After Using Elephant}
+\begin{itemize}
+    \item Automated tracking in 5 minutes/month
+    \item Discovered 3 under-cited papers
+    \item Got recommendations to boost visibility
+    \item Increased citations by 40\% in 6 months
+    \item Data-driven decisions for paper promotion
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\section{Part 2: Getting Started}
+
+\begin{frame}{What is Elephant?}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+% Central elephant
+\node[circle, draw, fill=gray!30, minimum size=2.5cm] (elephant) at (0,0) {\Huge 🐘};
+\node[below=0.1cm of elephant] {\textbf{Elephant}};
+
+% Surrounding features
+\node[rectangle, draw, fill=blue!20, text width=2cm, align=center] (track) at (-3,2) {Track Citations};
+\node[rectangle, draw, fill=green!20, text width=2cm, align=center] (analyze) at (3,2) {Analyze Trends};
+\node[rectangle, draw, fill=yellow!20, text width=2cm, align=center] (recommend) at (-3,-2) {Get Advice};
+\node[rectangle, draw, fill=red!20, text width=2cm, align=center] (boost) at (3,-2) {Boost Impact};
+
+% Arrows
+\draw[->, thick] (track) -- (elephant);
+\draw[->, thick] (analyze) -- (elephant);
+\draw[->, thick] (recommend) -- (elephant);
+\draw[->, thick] (boost) -- (elephant);
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.3cm}
+
+\begin{block}{In Simple Terms}
+Elephant is your \textbf{personal citation assistant} that remembers everything about your research impact and helps you improve it.
+\end{block}
+\end{frame}
+
+\begin{frame}{How Elephant Collects Your Data}
+\begin{center}
+\begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
+% Platforms at top
+\node[draw, rectangle, fill=blue!30, minimum width=1.5cm] (orcid) at (0,5) {ORCID};
+\node[draw, rectangle, fill=blue!30, minimum width=1.5cm] (arxiv) at (2,5) {arXiv};
+\node[draw, rectangle, fill=blue!30, minimum width=1.5cm] (sem) at (4,5) {Semantic};
+\node[draw, rectangle, fill=blue!30, minimum width=1.5cm] (scholar) at (6,5) {Scholar};
+
+% APIs
+\node[draw, rectangle, fill=green!30, minimum width=7cm, minimum height=0.7cm] (api) at (3,3.5) {API Connectors};
+
+% Elephant core
+\node[circle, fill=gray!30, minimum size=1.5cm] (core) at (3,2) {🐘};
+
+% Database
+\node[draw, cylinder, fill=yellow!30, minimum width=2cm, minimum height=1cm, shape aspect=0.3] (db) at (3,0.3) {Your Data};
+
+% You
+\node[draw, circle, fill=purple!30, minimum size=1.2cm] (you) at (3,-1.5) {You};
+
+% Arrows
+\draw[->, thick] (orcid) -- (api);
+\draw[->, thick] (arxiv) -- (api);
+\draw[->, thick] (sem) -- (api);
+\draw[->, thick] (scholar) -- (api);
+\draw[->, thick] (api) -- (core);
+\draw[->, thick] (core) -- (db);
+\draw[<->, thick] (you) -- (db);
+
+% Labels
+\node[right=0.1cm of orcid] {\tiny Publications};
+\node[right=0.1cm of sem] {\tiny Citations};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Installation - Step by Step}
+\begin{block}{Step 1: Open Terminal}
+On Linux/Mac: Open Terminal \\
+On Windows: Open PowerShell or Git Bash
+\end{block}
+
+\begin{block}{Step 2: Clone Repository}
+\begin{lstlisting}[style=terminal]
+$ git clone https://github.com/alnemari-m/elephant
+$ cd elephant
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Step 3: Install Dependencies}
+\begin{lstlisting}[style=terminal]
+$ pip install -r requirements.txt
+\end{lstlisting}
+\textit{This installs all required libraries}
+\end{block}
+
+\begin{block}{Step 4: Install Elephant}
+\begin{lstlisting}[style=terminal]
+$ pip install -e .
+\end{lstlisting}
+\textit{Now you can use the \texttt{elephant} command anywhere!}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{First Time Setup}
+\begin{block}{Run the Initialize Command}
+\begin{lstlisting}[style=terminal]
+$ elephant init
+\end{lstlisting}
+\end{block}
+
+\pause
+
+\begin{block}{You'll Be Asked For:}
+\begin{lstlisting}[style=terminal]
+Your ORCID ID: 0000-0002-1234-5678
+Your email: sarah@university.edu
+Your name: Dr. Sarah Johnson
+\end{lstlisting}
+\end{block}
+
+\pause
+
+\begin{exampleblock}{What Just Happened?}
+\begin{itemize}
+    \item Created config folder: \texttt{\textasciitilde/.elephant/}
+    \item Saved your settings: \texttt{config.yaml}
+    \item Initialized database: \texttt{citations.db}
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{Finding Your ORCID ID}
+\begin{block}{What is ORCID?}
+ORCID is a unique identifier for researchers (like a DOI for people!)
+\end{block}
+
+\begin{enumerate}
+    \item Go to \texttt{https://orcid.org}
+    \item Search for your name
+    \item Your ORCID looks like: \texttt{0000-0002-1234-5678}
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\begin{alertblock}{Don't Have an ORCID?}
+\begin{enumerate}
+    \item Go to \texttt{https://orcid.org/register}
+    \item Create free account (takes 2 minutes)
+    \item Add your publications
+    \item Get your ORCID ID
+\end{enumerate}
+\end{alertblock}
+
+\begin{center}
+\textbf{ORCID is essential for modern academic research!}
+\end{center}
+\end{frame}
+
+\section{Part 3: Using Elephant}
+
+\begin{frame}[fragile]{Your First Data Fetch}
+\begin{block}{Fetch Data from All Platforms}
+\begin{lstlisting}[style=terminal]
+$ elephant fetch --all
+\end{lstlisting}
+\end{block}
+
+\pause
+
+\begin{exampleblock}{What You'll See}
+\begin{lstlisting}[style=terminal, basicstyle=\ttfamily\tiny\color{terminalgreen}]
+Fetching citation data...
+
+Fetching from orcid...
+[OK] orcid: 15 papers, 0 citations
+
+Fetching from arxiv...
+[OK] arxiv: 8 papers, 0 citations
+
+Fetching from semantic_scholar...
+[OK] semantic_scholar: 15 papers, 387 citations
+
+Data fetch completed!
+\end{lstlisting}
+\end{exampleblock}
+
+\begin{alertblock}{Note}
+First fetch may take 1-2 minutes depending on your publication count
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Understanding Platform Roles}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Platform} & \textbf{Provides} & \textbf{Best For} \\
+\hline
+ORCID & Publications & Your paper list \\
+arXiv & Preprints & CS/Physics papers \\
+Semantic Scholar & Citations & Citation counts \\
+Google Scholar & Everything & Complete coverage \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{block}{Recommendation}
+\begin{itemize}
+    \item \textbf{Always use:} ORCID + Semantic Scholar
+    \item \textbf{Optional:} arXiv (if you post preprints)
+    \item \textbf{Careful with:} Google Scholar (can be blocked)
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Viewing Your Dashboard}
+\begin{block}{Basic Dashboard}
+\begin{lstlisting}[style=terminal]
+$ elephant dashboard
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Detailed Dashboard with Top Papers}
+\begin{lstlisting}[style=terminal]
+$ elephant dashboard --detailed
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Dashboard for Specific Period}
+\begin{lstlisting}[style=terminal]
+$ elephant dashboard --period week
+$ elephant dashboard --period month
+$ elephant dashboard --period year
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}{Dashboard Explained}
+\begin{block}{Citation Dashboard for Dr. Sarah Johnson}
+\texttt{ORCID: 0000-0002-1234-5678} \\
+\texttt{Period: All time}
+\end{block}
+
+\begin{block}{Overall Metrics}
+\begin{tabular}{lrr}
+\textbf{Metric} & \textbf{Value} & \textbf{Change} \\
+\hline
+Total Papers & 15 & +2 \\
+Total Citations & 387 & +23 \\
+H-Index & 12 & +1 \\
+Avg Citations/Paper & 25.8 & --- \\
+\end{tabular}
+\end{block}
+
+\begin{alertblock}{What Does This Mean?}
+\begin{itemize}
+    \item \textbf{H-Index 12}: You have 12 papers with at least 12 citations each
+    \item \textbf{+23 citations}: 23 new citations since last fetch
+    \item \textbf{Avg 25.8}: Your papers average 26 citations
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Understanding H-Index}
+\begin{block}{What is H-Index?}
+A metric that balances productivity and citation impact
+\end{block}
+
+\vspace{0.3cm}
+
+\begin{exampleblock}{Example: H-Index = 5}
+You have \textbf{5 papers} with \textbf{at least 5 citations each}
+
+\begin{center}
+\begin{tabular}{lc}
+Paper & Citations \\
+\hline
+Paper A & 87 ← counts \\
+Paper B & 56 ← counts \\
+Paper C & 12 ← counts \\
+Paper D & 8 ← counts \\
+Paper E & 5 ← counts \\
+Paper F & 3 ← doesn't count \\
+Paper G & 1 ← doesn't count \\
+\end{tabular}
+\end{center}
+\end{exampleblock}
+
+\begin{block}{Why It Matters}
+Higher H-index → Consistent high-impact research \\
+Used for grants, promotions, job applications
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Getting Recommendations}
+\begin{block}{Get Top 5 Suggestions}
+\begin{lstlisting}[style=terminal]
+$ elephant recommend
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Get More Recommendations}
+\begin{lstlisting}[style=terminal]
+$ elephant recommend --top 10
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Filter by Category}
+\begin{lstlisting}[style=terminal]
+$ elephant recommend --category visibility
+$ elephant recommend --category collaboration
+$ elephant recommend --category trending
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}{Example Recommendation}
+\begin{block}{Recommendation 1 - Visibility}
+\textbf{Promote under-cited paper}
+
+\vspace{0.2cm}
+
+Your paper "Deep Learning for Medical Imaging" has only 3 citations after 2 years. Consider promoting it.
+
+\vspace{0.3cm}
+
+\textbf{Impact:} High - Can significantly increase citations \\
+\textbf{Effort:} Medium - Requires targeted outreach
+
+\vspace{0.3cm}
+
+\textbf{Action:} Share on ResearchGate, Academia.edu, and relevant social media. Contact researchers in the field. Present at conferences.
+\end{block}
+
+\begin{alertblock}{Why This Recommendation?}
+\begin{itemize}
+    \item Paper is 2 years old (past early citation period)
+    \item Only 3 citations (below average for your profile)
+    \item System detected potential for higher impact
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Example Recommendation 2}
+\begin{block}{Recommendation 2 - Collaboration}
+\textbf{Increase collaboration}
+
+\vspace{0.2cm}
+
+7 papers have minimal co-authors. Collaborative papers typically receive more citations.
+
+\vspace{0.3cm}
+
+\textbf{Impact:} High - Collaborative papers get 2-3x more citations \\
+\textbf{Effort:} High - Requires networking
+
+\vspace{0.3cm}
+
+\textbf{Action:} Reach out to researchers in your field. Join research groups. Attend conferences and workshops. Use platforms like ResearchGate to connect.
+\end{block}
+
+\begin{exampleblock}{Research Shows}
+Papers with 3+ authors get \textbf{2.5x more citations} than solo papers!
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{Tracking Specific Papers}
+\begin{block}{Track by DOI}
+\begin{lstlisting}[style=terminal]
+$ elephant track --doi "10.1234/example.2023"
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Track by arXiv ID}
+\begin{lstlisting}[style=terminal]
+$ elephant track --arxiv "2301.12345"
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Track by Title}
+\begin{lstlisting}[style=terminal]
+$ elephant track --title "Deep Learning"
+\end{lstlisting}
+\end{block}
+
+\begin{block}{List All Tracked Papers}
+\begin{lstlisting}[style=terminal]
+$ elephant track --list
+\end{lstlisting}
+\end{block}
+
+\begin{alertblock}{Why Track Papers?}
+Monitor your most important papers more closely!
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Exporting Your Data}
+\begin{block}{Export to CSV (Default)}
+\begin{lstlisting}[style=terminal]
+$ elephant export
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Export to JSON}
+\begin{lstlisting}[style=terminal]
+$ elephant export --format json --output my_data.json
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Export to Excel}
+\begin{lstlisting}[style=terminal]
+$ elephant export --format xlsx --output citations.xlsx
+\end{lstlisting}
+\end{block}
+
+\begin{exampleblock}{Use Cases}
+\begin{itemize}
+    \item Create visualizations in Excel/R/Python
+    \item Include in grant applications
+    \item Share with collaborators
+    \item Build custom reports
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\section{Part 4: Advanced Features}
+
+\begin{frame}{Setting Up API Keys (Optional)}
+\begin{block}{Why Add API Keys?}
+\begin{itemize}
+    \item Faster data fetching
+    \item Access to more data
+    \item Fewer rate limits
+    \item Better reliability
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{Which APIs Should You Get?}
+\begin{enumerate}
+    \item \textbf{Semantic Scholar} - FREE, highly recommended!
+    \item \textbf{ORCID} - FREE, for private data access
+    \item \textbf{Web of Science / Scopus} - Requires institution
+\end{enumerate}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Getting Semantic Scholar API Key}
+\begin{enumerate}
+    \item Go to \texttt{https://www.semanticscholar.org/product/api}
+    \item Click "Request API Key"
+    \item Fill out form (takes 2 minutes)
+    \item Receive key via email (instant to 24 hours)
+\end{enumerate}
+
+\vspace{0.5cm}
+
+\begin{block}{Add to Elephant}
+\begin{lstlisting}[style=terminal]
+$ cd ~/.elephant
+$ nano .env
+\end{lstlisting}
+
+Add this line:
+\begin{lstlisting}[style=terminal]
+SEMANTIC_SCHOLAR_API_KEY=your_key_here
+\end{lstlisting}
+
+Save and exit (Ctrl+X, Y, Enter)
+\end{block}
+
+\begin{exampleblock}{Benefits}
+\begin{itemize}
+    \item 10x more API calls per day
+    \item Faster response times
+    \item Access to more detailed data
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{Setting Up Citation Alerts}
+\begin{block}{Enable Alerts}
+\begin{lstlisting}[style=terminal]
+$ elephant alert --enable
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Set Alert Threshold}
+\begin{lstlisting}[style=terminal]
+$ elephant alert --threshold 5
+\end{lstlisting}
+\textit{Get alerted when a paper reaches 5+ citations}
+\end{block}
+
+\begin{block}{Disable Alerts}
+\begin{lstlisting}[style=terminal]
+$ elephant alert --disable
+\end{lstlisting}
+\end{block}
+
+\begin{exampleblock}{Future Feature}
+Email notifications coming soon! \\
+For now, alerts are stored in the database
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{Detailed Paper Statistics}
+\begin{block}{Get Stats for Specific Paper}
+\begin{lstlisting}[style=terminal]
+$ elephant stats --paper "10.1234/example"
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Output Example}
+\textbf{Paper Statistics} \\
+\rule{\textwidth}{0.4pt}
+
+\textbf{Deep Learning for Medical Image Analysis}
+
+Citations: 87 \\
+Year: 2020 \\
+Venue: Nature Medicine \\
+DOI: 10.1234/example
+
+\textbf{Citation Growth:}
+\begin{itemize}
+    \item Last 7 days: +2
+    \item Last 30 days: +7
+    \item Last year: +34
+\end{itemize}
+\end{block}
+\end{frame}
+
+\section{Part 5: Practical Workflows}
+
+\begin{frame}{Weekly Workflow}
+\begin{block}{Every Monday Morning (5 minutes)}
+\begin{enumerate}
+    \item Fetch latest data
+    \begin{itemize}
+        \item \texttt{elephant fetch --all}
+    \end{itemize}
+
+    \item Check dashboard
+    \begin{itemize}
+        \item \texttt{elephant dashboard --detailed}
+    \end{itemize}
+
+    \item Review recommendations
+    \begin{itemize}
+        \item \texttt{elephant recommend}
+    \end{itemize}
+
+    \item Act on top recommendation
+    \begin{itemize}
+        \item Share paper, email researcher, update profile, etc.
+    \end{itemize}
+\end{enumerate}
+\end{block}
+
+\begin{exampleblock}{Result}
+Stay informed, act strategically, boost citations systematically!
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Monthly Review Workflow}
+\begin{block}{First of Every Month (15 minutes)}
+\begin{enumerate}
+    \item Fetch data: \texttt{elephant fetch --all}
+
+    \item Review monthly trends: \texttt{elephant dashboard --period month}
+
+    \item Export data: \texttt{elephant export --format xlsx}
+
+    \item Analyze in Excel/Sheets
+    \begin{itemize}
+        \item Which papers growing fastest?
+        \item Which papers stagnating?
+        \item Overall citation velocity?
+    \end{itemize}
+
+    \item Plan promotion strategy
+    \begin{itemize}
+        \item Based on recommendations
+        \item Focus on under-cited papers
+        \item Identify collaboration opportunities
+    \end{itemize}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Grant Application Workflow}
+\begin{block}{When Applying for Grants}
+\begin{enumerate}
+    \item Fetch latest data
+    \begin{itemize}
+        \item \texttt{elephant fetch --all}
+    \end{itemize}
+
+    \item Export comprehensive report
+    \begin{itemize}
+        \item \texttt{elephant export --format xlsx}
+    \end{itemize}
+
+    \item Include in application:
+    \begin{itemize}
+        \item Total citations
+        \item H-index
+        \item Citation trends (growth chart)
+        \item Top-cited papers
+    \end{itemize}
+
+    \item Show impact metrics
+    \begin{itemize}
+        \item Papers in high-impact journals
+        \item Collaboration breadth
+        \item Field influence
+    \end{itemize}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\section{Part 6: Troubleshooting}
+
+\begin{frame}[fragile]{Common Issues and Solutions}
+\begin{alertblock}{Issue 1: "Not initialized" Error}
+\textbf{Solution:}
+\begin{lstlisting}[style=terminal]
+$ elephant init
+\end{lstlisting}
+You need to initialize first!
+\end{alertblock}
+
+\begin{alertblock}{Issue 2: No Citations Fetched}
+\textbf{Possible Causes:}
+\begin{itemize}
+    \item Papers not yet indexed (wait 1-2 weeks after publication)
+    \item ORCID ID incorrect
+    \item Papers missing DOIs
+\end{itemize}
+
+\textbf{Solution:}
+\begin{itemize}
+    \item Verify ORCID at \texttt{orcid.org}
+    \item Add DOIs to papers
+    \item Try fetching from Semantic Scholar specifically
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{More Troubleshooting}
+\begin{alertblock}{Issue 3: Google Scholar Blocked}
+\textbf{Error:} HTTP 429 or similar
+
+\textbf{Solution:}
+\begin{itemize}
+    \item Google Scholar blocks automated requests
+    \item Disable it: Edit \texttt{\textasciitilde/.elephant/config.yaml}
+    \item Set \texttt{google\_scholar: enabled: false}
+    \item Use Semantic Scholar instead (better API!)
+\end{itemize}
+\end{alertblock}
+
+\begin{alertblock}{Issue 4: Missing Papers}
+\textbf{Solution:}
+\begin{itemize}
+    \item Check papers are in ORCID profile
+    \item Ensure DOIs are correct
+    \item Some preprints may not be indexed yet
+    \item Manually track important papers: \texttt{elephant track --doi "..."}
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\section{Part 7: Best Practices}
+
+\begin{frame}{Best Practices for Citation Tracking}
+\begin{block}{Do's ✓}
+\begin{itemize}
+    \item Update ORCID regularly with new papers
+    \item Fetch data weekly for consistent tracking
+    \item Act on recommendations systematically
+    \item Export data monthly for trend analysis
+    \item Add DOIs to all publications
+    \item Use Semantic Scholar API (free!)
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{Don'ts ✗}
+\begin{itemize}
+    \item Don't fetch more than once per day (unnecessary)
+    \item Don't rely only on Google Scholar (can be blocked)
+    \item Don't ignore low-cited papers (they need attention!)
+    \item Don't forget to backup exported data
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Maximizing Your Citations}
+\begin{block}{Quick Wins (This Week)}
+\begin{enumerate}
+    \item Complete all online profiles (ORCID, Google Scholar, ResearchGate)
+    \item Add missing DOIs to papers
+    \item Share your top 3 papers on social media
+\end{enumerate}
+\end{block}
+
+\begin{block}{Medium-term (1-3 Months)}
+\begin{enumerate}
+    \item Post preprints to arXiv/bioRxiv
+    \item Present at conferences
+    \item Email 10 researchers about your work
+    \item Write a blog post explaining your research
+\end{enumerate}
+\end{block}
+
+\begin{block}{Long-term (6-12 Months)}
+\begin{enumerate}
+    \item Write a review paper (gets 3-5x more citations!)
+    \item Increase collaboration
+    \item Media outreach for high-impact work
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Understanding Your Metrics}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Metric} & \textbf{Good} & \textbf{Great} \\
+\hline
+H-Index (5 years) & 10+ & 20+ \\
+Citations/Paper & 15+ & 30+ \\
+Total Citations & 200+ & 1000+ \\
+Papers/Year & 2-3 & 4-5 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{alertblock}{Important Note}
+Metrics vary GREATLY by field! \\
+Compare yourself to researchers in YOUR field, not across all fields.
+
+\vspace{0.3cm}
+
+\begin{itemize}
+    \item Biology: Higher citations
+    \item Mathematics: Lower citations
+    \item Computer Science: Medium citations
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\section{Part 8: Real Examples}
+
+\begin{frame}{Example 1: Promoting Under-Cited Paper}
+\begin{block}{Situation}
+Paper published 18 months ago, only 2 citations \\
+Elephant recommendation: "Promote under-cited paper"
+\end{block}
+
+\begin{exampleblock}{Actions Taken}
+\begin{enumerate}
+    \item Posted on ResearchGate (day 1)
+    \item Shared on Twitter with plain-language summary (day 1)
+    \item Emailed 5 researchers citing similar work (day 2)
+    \item Submitted to relevant conference (week 2)
+    \item Wrote blog post explaining findings (week 3)
+\end{enumerate}
+\end{exampleblock}
+
+\begin{block}{Results (6 months)}
+\begin{itemize}
+    \item Citations increased from 2 to 15
+    \item New collaboration started from email outreach
+    \item Paper accepted at conference
+    \item Blog post viewed 500+ times
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Example 2: Systematic Weekly Tracking}
+\begin{block}{Researcher Profile}
+PhD student, 5 papers published, struggling to track impact
+\end{block}
+
+\begin{exampleblock}{Implemented Workflow}
+\textbf{Every Monday 9am:}
+\begin{enumerate}
+    \item \texttt{elephant fetch --all}
+    \item \texttt{elephant dashboard --detailed}
+    \item Review weekly changes
+    \item Act on \#1 recommendation
+\end{enumerate}
+
+\textbf{Time investment:} 5 minutes/week
+\end{exampleblock}
+
+\begin{block}{Results (3 months)}
+\begin{itemize}
+    \item Discovered 2 new citations immediately
+    \item Identified collaboration opportunity
+    \item Added missing DOIs (+visibility)
+    \item Started tracking citation velocity
+    \item More confident about research impact
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Example 3: Preparing for Job Applications}
+\begin{block}{Situation}
+Postdoc applying for faculty positions, needs strong impact metrics
+\end{block}
+
+\begin{exampleblock}{Using Elephant}
+\begin{enumerate}
+    \item Exported complete citation history
+    \item Created Excel charts showing citation growth
+    \item Calculated field-normalized metrics
+    \item Identified most impactful papers (for talks)
+    \item Tracked h-index improvement over time
+\end{enumerate}
+\end{exampleblock}
+
+\begin{block}{Application Materials}
+\begin{itemize}
+    \item CV: "387 citations, h-index 12, growing 35\%/year"
+    \item Research statement: Included citation growth charts
+    \item Job talk: Featured most-cited work
+    \item Interview prep: Confident about impact metrics
+\end{itemize}
+\end{block}
+
+\begin{exampleblock}{Outcome}
+Received 3 job offers! Impact metrics were conversation topic in all interviews.
+\end{exampleblock}
+\end{frame}
+
+\section{Part 9: Q\&A and Resources}
+
+\begin{frame}{Frequently Asked Questions}
+\begin{block}{Q: How often should I fetch data?}
+\textbf{A:} Once per week is ideal. More frequent fetching doesn't help (citations don't change daily).
+\end{block}
+
+\begin{block}{Q: Which platforms should I enable?}
+\textbf{A:} ORCID + Semantic Scholar are essential. arXiv if you post preprints. Skip Google Scholar unless needed (gets blocked).
+\end{block}
+
+\begin{block}{Q: Is my data private?}
+\textbf{A:} Yes! Everything stored locally on your computer in \texttt{\textasciitilde/.elephant/}. Nothing sent to external servers except API calls to public platforms.
+\end{block}
+
+\begin{block}{Q: Can I use this for my research group?}
+\textbf{A:} Absolutely! Each member can track their own citations, or combine data for group metrics.
+\end{block}
+\end{frame}
+
+\begin{frame}{More FAQ}
+\begin{block}{Q: What if my field has low citation rates?}
+\textbf{A:} Elephant shows relative metrics. Compare to peers in YOUR field, not across all fields. Use recommendations to improve within your context.
+\end{block}
+
+\begin{block}{Q: Can I import historical data?}
+\textbf{A:} Currently no, but you can export from other tools and import to database manually. Future feature planned!
+\end{block}
+
+\begin{block}{Q: How do I back up my data?}
+\textbf{A:}
+\begin{enumerate}
+    \item Copy \texttt{\textasciitilde/.elephant/} folder
+    \item Or export regularly: \texttt{elephant export}
+\end{enumerate}
+\end{block}
+
+\begin{block}{Q: Can I contribute to Elephant?}
+\textbf{A:} Yes! It's open source. Check \texttt{github.com/alnemari-m/elephant}
+\end{block}
+\end{frame}
+
+\begin{frame}{Resources and Documentation}
+\begin{block}{Elephant Resources}
+\begin{itemize}
+    \item \textbf{GitHub:} \texttt{github.com/alnemari-m/elephant}
+    \item \textbf{Usage Guide:} \texttt{USAGE\_GUIDE.md}
+    \item \textbf{Citation Strategies:} \texttt{CITATION\_BOOST\_STRATEGIES.md}
+    \item \textbf{Issues/Support:} GitHub Issues
+\end{itemize}
+\end{block}
+
+\begin{block}{Platform Resources}
+\begin{itemize}
+    \item \textbf{ORCID:} \texttt{orcid.org}
+    \item \textbf{Semantic Scholar:} \texttt{semanticscholar.org}
+    \item \textbf{arXiv:} \texttt{arxiv.org}
+    \item \textbf{Google Scholar:} \texttt{scholar.google.com}
+\end{itemize}
+\end{block}
+
+\begin{block}{Learning More}
+\begin{itemize}
+    \item See \texttt{CITATION\_BOOST\_STRATEGIES.md} for 20+ proven strategies
+    \item Join \#AcademicTwitter for citation tips
+    \item Read blog posts about research impact
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Summary: What You Learned}
+\begin{block}{You now know how to:}
+\begin{enumerate}
+    \item Install and set up Elephant
+    \item Connect your academic profiles
+    \item Fetch citation data automatically
+    \item Read and understand your metrics
+    \item Get actionable recommendations
+    \item Track specific papers
+    \item Export and analyze data
+    \item Create effective workflows
+    \item Troubleshoot common issues
+    \item Maximize your citation impact
+\end{enumerate}
+\end{block}
+
+\begin{exampleblock}{Next Steps}
+\begin{enumerate}
+    \item Install Elephant today
+    \item Set up your first fetch
+    \item Review your dashboard
+    \item Act on one recommendation this week
+\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\Huge{Thank You!}
+
+\vspace{1cm}
+
+\Large{Never Forget Your Citations}
+
+\vspace{1cm}
+
+\begin{tikzpicture}
+\node at (0,0) {\Huge 🐘};
+\end{tikzpicture}
+
+\vspace{1cm}
+
+\normalsize{
+\textbf{Questions?} \\
+\vspace{0.3cm}
+\texttt{github.com/alnemari-m/elephant} \\
+\texttt{mohammedalnemari@gmail.com}
+}
+\end{center}
+\end{frame}
+
+\begin{frame}{Quick Reference Card}
+\begin{block}{Essential Commands}
+\begin{description}
+    \item[\texttt{elephant init}] First-time setup
+    \item[\texttt{elephant fetch --all}] Get latest data
+    \item[\texttt{elephant dashboard}] View metrics
+    \item[\texttt{elephant recommend}] Get advice
+    \item[\texttt{elephant track}] Monitor paper
+    \item[\texttt{elephant export}] Save data
+\end{description}
+\end{block}
+
+\begin{block}{Files \& Folders}
+\begin{description}
+    \item[\texttt{\textasciitilde/.elephant/config.yaml}] Your settings
+    \item[\texttt{\textasciitilde/.elephant/.env}] API keys
+    \item[\texttt{\textasciitilde/.elephant/data/}] Your database
+\end{description}
+\end{block}
+
+\vspace{0.3cm}
+\begin{center}
+\small{Bookmark this slide for quick reference!}
+\end{center}
+\end{frame}
+
+\end{document}
